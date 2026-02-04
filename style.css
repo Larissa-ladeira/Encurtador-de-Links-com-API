@@ -1,0 +1,135 @@
+@charset "UTF-8";
+
+:root {
+    --cor-principal: #0b0713;
+    --cor-accent: #a855f7;
+    --cor-glow: rgba(168, 85, 247, 0.6);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Open Sans', sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-principal);
+    /* Adicionando um leve gradiente de fundo para profundidade */
+    background: radial-gradient(circle at center, #1c142b 0%, #0b0713 100%);
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.caixa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 90%;
+    max-width: 800px;
+    padding: 60px 40px;
+    background: rgba(26, 22, 37, 0.8); /* Fundo semi-transparente */
+    backdrop-filter: blur(12px); /* Efeito de desfoque atrás da caixa */
+    border-radius: 24px;
+    
+    /* Borda neon sutil */
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 
+                0 0 20px rgba(168, 85, 247, 0.1);
+}
+
+/* Efeito de brilho nas bordas laterais */
+
+.caixa::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 24px;
+    padding: 2px; 
+    background: linear-gradient(45deg, transparent, var(--cor-accent), transparent, var(--cor-accent), transparent);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+    
+    /* ESTA LINHA ABAIXO RESOLVE O PROBLEMA */
+    pointer-events: none; 
+}
+
+.titulo {
+    font-size: clamp(24px, 5vw, 40px);
+    margin-bottom: 40px;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+.caixa-input {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap; /* Permite quebrar em telas pequenas */
+    gap: 15px;
+    justify-content: center;
+}
+
+.input-url {
+    padding: 15px 25px;
+    outline: none;
+    flex: 1; /* Ocupa o espaço disponível */
+    min-width: 280px;
+    border-radius: 50px;
+    border: 1px solid rgba(168, 85, 247, 0.5);
+    background: rgba(15, 12, 19, 0.6);
+    font-size: 18px;
+    color: white;
+    transition: 0.3s;
+}
+
+.input-url:focus {
+    border-color: var(--cor-accent);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+    background: rgba(15, 12, 19, 0.9);
+}
+
+.btn {
+    padding: 15px 35px;
+    border: none;
+    border-radius: 50px;
+    background: var(--cor-accent);
+    color: white;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px var(--cor-glow);
+    filter: brightness(1.1);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .caixa {
+        padding: 40px 20px;
+    }
+    .btn {
+        width: 100%; /* Botões ocupam largura total no celular */
+    }
+}
