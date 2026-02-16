@@ -1,28 +1,75 @@
-function encurtar(){
-    let url = document.getElementById('input-url').value;
-    if(!url) {
-        alert("É preciso enserir uma URL para encurtar");
-        return;
+function encurtar() {
+    // Pega o valor do input e remove espaços extras
+    let url = document.getElementById('input-url').value.trim();
+
+    // Verifica se está vazio
+    if (!url) {
+        alert("Por favor, cole uma URL válida!");
+        return; // Para a função aqui
     }
 
+    // Se não tiver http ou https, adiciona https:// (simples e comum)
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        url = 'https://' + url;
+    }
 
-
-fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`)
+    // Chama a API do TinyURL
+    fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`)
         .then(response => {
-            if (!response.ok) throw new Error("Erro ao conectar com o serviço.");
-            return response.text(); // O TinyURL retorna apenas o texto do link, não um JSON
+            // Verifica se deu certo
+            if (!response.ok) {
+                throw new Error("Erro ao encurtar. Tente novamente!");
+            }
+            return response.text(); // Retorna o texto (o link curto)
         })
         .then(shortUrl => {
-            let inputUrl = document.getElementById("input-url");
-            inputUrl.value = shortUrl;
+            // Coloca o link curto no input
+            document.getElementById('input-url').value = shortUrl;
+
+            // Mensagem simples de sucesso!
+            alert("Sucesso! Sua URL foi encurtada:\n" + shortUrl + "\n\nAgora clique em 'Copiar' para usar!");
         })
         .catch(error => {
-            console.error(error);
-            alert("Houve um erro: " + error.message);
+            // Mostra erro de forma simples
+            alert("Ops! Algo deu errado: " + error.message);
         });
 }
-function copiar() {
-    let inputUrl = document.getElementById("input-url");
+function encurtar() {
+    // Pega o valor do input e remove espaços extras
+    let url = document.getElementById('input-url').value.trim();
+
+    // Verifica se está vazio
+    if (!url) {
+        alert("Por favor, cole uma URL válida!");
+        return; // Para a função aqui
+    }
+
+    // Se não tiver http ou https, adiciona https:// (simples e comum)
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        url = 'https://' + url;
+    }
+
+    // Chama a API do TinyURL
+    fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`)
+        .then(response => {
+            // Verifica se deu certo
+            if (!response.ok) {
+                throw new Error("Erro ao encurtar. Tente novamente!");
+            }
+            return response.text(); // Retorna o texto (o link curto)
+        })
+        .then(shortUrl => {
+            // Coloca o link curto no input
+            document.getElementById('input-url').value = shortUrl;
+
+            // Mensagem simples de sucesso!
+            alert("Sucesso! Sua URL foi encurtada:\n" + shortUrl + "\n\nAgora clique em 'Copiar' para usar!");
+        })
+        .catch(error => {
+            // Mostra erro de forma simples
+            alert("Ops! Algo deu errado: " + error.message);
+        });
+}    let inputUrl = document.getElementById("input-url");
 
     if (inputUrl.value === "" || inputUrl.value.includes("Coloque aqui")) {
         alert("Não há nada para copiar!");
