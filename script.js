@@ -81,4 +81,3 @@ function encurtar() {
     navigator.clipboard.writeText(inputUrl.value);
 
     alert(`URL Copiada: ${inputUrl.value}`);
-}
