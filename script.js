@@ -1,75 +1,37 @@
 function encurtar() {
-    // Pega o valor do input e remove espaços extras
-    let url = document.getElementById('input-url').value.trim();
+    let urlInput = document.getElementById('input-url');
+    let url = urlInput.value.trim();
 
-    // Verifica se está vazio
-    if (!url) {
-        alert("Por favor, cole uma URL válida!");
-        return; // Para a função aqui
+    // 1. Validação básica
+    if (!url || url.includes("Coloque aqui")) {
+        alert("Por favor, insira uma URL válida!");
+        return;
     }
 
-    // Se não tiver http ou https, adiciona https:// (simples e comum)
+    // 2. Adiciona o protocolo se não existir
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
         url = 'https://' + url;
     }
 
-    // Chama a API do TinyURL
+    // 3. Chamada à API
     fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`)
         .then(response => {
-            // Verifica se deu certo
-            if (!response.ok) {
-                throw new Error("Erro ao encurtar. Tente novamente!");
-            }
-            return response.text(); // Retorna o texto (o link curto)
+            if (!response.ok) throw new Error("Erro na rede");
+            return response.text();
         })
         .then(shortUrl => {
-            // Coloca o link curto no input
-            document.getElementById('input-url').value = shortUrl;
-
-            // Mensagem simples de sucesso!
-            alert("Sucesso! Sua URL foi encurtada:\n" + shortUrl + "\n\nAgora clique em 'Copiar' para usar!");
+            // Coloca o resultado de volta no input
+            urlInput.value = shortUrl;
+            alert("URL encurtada com sucesso!");
         })
         .catch(error => {
-            // Mostra erro de forma simples
             alert("Ops! Algo deu errado: " + error.message);
         });
 }
-function encurtar() {
-    // Pega o valor do input e remove espaços extras
-    let url = document.getElementById('input-url').value.trim();
 
-    // Verifica se está vazio
-    if (!url) {
-        alert("Por favor, cole uma URL válida!");
-        return; // Para a função aqui
-    }
-
-    // Se não tiver http ou https, adiciona https:// (simples e comum)
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        url = 'https://' + url;
-    }
-
-    // Chama a API do TinyURL
-    fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`)
-        .then(response => {
-            // Verifica se deu certo
-            if (!response.ok) {
-                throw new Error("Erro ao encurtar. Tente novamente!");
-            }
-            return response.text(); // Retorna o texto (o link curto)
-        })
-        .then(shortUrl => {
-            // Coloca o link curto no input
-            document.getElementById('input-url').value = shortUrl;
-
-            // Mensagem simples de sucesso!
-            alert("Sucesso! Sua URL foi encurtada:\n" + shortUrl + "\n\nAgora clique em 'Copiar' para usar!");
-        })
-        .catch(error => {
-            // Mostra erro de forma simples
-            alert("Ops! Algo deu errado: " + error.message);
-        });
-}    let inputUrl = document.getElementById("input-url");
+// 4. Função de copiar separada
+function copiar() {
+    let inputUrl = document.getElementById("input-url");
 
     if (inputUrl.value === "" || inputUrl.value.includes("Coloque aqui")) {
         alert("Não há nada para copiar!");
@@ -77,7 +39,8 @@ function encurtar() {
     }
 
     inputUrl.select();
-    inputUrl.setSelectionRange(0, 99999);
+    inputUrl.setSelectionRange(0, 99999); // Para dispositivos móveis
     navigator.clipboard.writeText(inputUrl.value);
 
     alert(`URL Copiada: ${inputUrl.value}`);
+}
